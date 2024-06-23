@@ -5,6 +5,7 @@ from io import BytesIO
 
 app = FastAPI()
 
+
 @app.post("/upload-excel/")
 async def upload_excel(file: UploadFile = File(...)):
     if not file.filename.endswith('.xlsx'):
@@ -21,7 +22,8 @@ async def upload_excel(file: UploadFile = File(...)):
         return_df['שם משפחה'] = df['שם משפחה']
         return_df['Email'] = ''
         return_df['טלפון'] = ''
-        return_df[['Email', 'טלפון']] = df.apply(identify_and_assign, axis=1)[['Email', 'טלפון']]
+        return_df[['Email', 'טלפון']] = df.apply(identify_and_assign, axis=1)[
+            ['Email', 'טלפון']]
         return_df['כתובת-רחוב'] = ''
         return_df['כתובת-עיר'] = ''
         return_df['כתובת מדינה'] = ''
@@ -30,7 +32,8 @@ async def upload_excel(file: UploadFile = File(...)):
         return_df['מלל חופשי'] = ''
         return_df['סוג בקשה מהאינטרנט'] = ''
         return_df['מוכרן'] = ''
-        return_df[['תאריך', 'שעה']] = df['פתיחת קריאה'].astype(str).str.split(' ', expand=True)
+        return_df[['תאריך', 'שעה']] = df['פתיחת קריאה'].astype(
+            str).str.split(' ', expand=True)
         return_df['קוד משתמש מהאתר'] = df['קוד משתמש מהאתר']
         return_df['SITE_URL'] = 'GLASSIX'
         return_df['קוד מקור הלידה'] = ''
@@ -52,6 +55,7 @@ async def upload_excel(file: UploadFile = File(...)):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 
 def identify_and_assign(row):
     contact_info = str(row['מזהה לקוח'])
